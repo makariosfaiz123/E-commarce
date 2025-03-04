@@ -30,7 +30,7 @@ let Formik = useFormik({
   return (
     <>
       
-      <div className="mx-auto w-1/2 my-5 bg-light shadow-xl p-10 bg-[#f8f9fa]  rounded-2xl">
+      <div className="mx-auto sm:w-3/4 md:w-1/2 my-5 bg-light shadow-xl p-10 bg-[#f8f9fa]  rounded-2xl">
       <h2 className="text-2xl font-bold text-center my-4 text-[#0aad0a]">
         CheckOut now
       </h2>
