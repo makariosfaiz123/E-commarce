@@ -4,11 +4,9 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import toast from "react-hot-toast";
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export default function ForgotPass() {
- 
   let navigate = useNavigate();
 
   function handleForgotPass(valuas) {
@@ -19,7 +17,7 @@ export default function ForgotPass() {
       )
       .then((res) => {
         console.log(res);
-
+          localStorage.setItem("userEmail", Formik.values.email);
         if (res.data.statusMsg == "success") {
           navigate("/verifyresetcode");
           toast.success(res.data.message, {

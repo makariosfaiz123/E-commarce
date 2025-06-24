@@ -21,11 +21,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Chechout from "./components/Chechout/Chechout";
-import Allorders from './components/Allorders/Allorders';
+import Allorders from "./components/Allorders/Allorders";
 import Wishlist from "./components/Wishlist/Wishlist";
 import ListContextProvider from "./Context/ListContext";
 import ForgotPass from "./components/ForgotPass/ForgotPass";
 import VerifyResetCode from "./components/VerifyResetCode/VerifyResetCode";
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 let query = new QueryClient();
 
@@ -112,6 +113,7 @@ let x = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "forgotpassword", element: <ForgotPass /> },
       { path: "verifyresetcode", element: <VerifyResetCode /> },
+      { path: "ResetPassword", element: <ResetPassword /> },
       { path: "register", element: <Register /> },
       { path: "*", element: <Notfound /> },
     ],
@@ -120,14 +122,13 @@ let x = createBrowserRouter([
 function App() {
   return (
     <>
-
       <UserContextProvider>
         <CounterContextProvider>
           <QueryClientProvider client={query}>
             <CartContextProvider>
               <ListContextProvider>
-              <RouterProvider router={x}></RouterProvider>
-              <Toaster/>
+                <RouterProvider router={x}></RouterProvider>
+                <Toaster />
               </ListContextProvider>
             </CartContextProvider>
             <ReactQueryDevtools />

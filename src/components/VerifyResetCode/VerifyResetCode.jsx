@@ -1,29 +1,25 @@
-import React from 'react'
-import style from "./VerifyResetCode.module.css"  
+import React from "react";
+
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from 'react-router-dom';
-
-
-
-
+import { useNavigate } from "react-router-dom";
 
 export default function VerifyResetCode() {
-
-
   let navigate = useNavigate();
 
   function handleVerifyCode(valuas) {
     axios
-      .post(`https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`,valuas)
+      .post(`https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`, {
+        resetCode: valuas.resetCode.toString(), 
+      })
       .then((res) => {
         console.log(res);
 
-        if (res.data.statusMsg == "success") {
-          // navigate("/");
-          toast.success(res.data.message, {
+        if (res.data.status == "Success") {
+          navigate("/ResetPassword");
+          toast.success("Code Verified Successfully!", {
             position: "top-right",
             style: {
               background: "#4fa74f",
@@ -48,9 +44,10 @@ export default function VerifyResetCode() {
   }
 
   let myValidation = yup.object().shape({
-    resetCode: yup.string()
-    .required()
-    .matches(/^[0-9]{6}$/, "phone not valid"),
+    resetCode: yup
+      .string()
+      .required()
+      .matches(/^[0-9]{6}||[0-9]{5}$/, "phone not valid"),
   });
 
   let Formik = useFormik({
@@ -61,8 +58,6 @@ export default function VerifyResetCode() {
     onSubmit: handleVerifyCode,
   });
 
-
-
   return (
     <>
       <div className="mx-auto sm:w-3/4 md:w-1/2 my-5 bg-light shadow-xl p-10 bg-[#f8f9fa]  rounded-2xl">
@@ -72,7 +67,7 @@ export default function VerifyResetCode() {
         <form onSubmit={Formik.handleSubmit} className="max-w-md mx-auto">
           <div className="relative z-0 w-full mb-5 group">
             <input
-              type="number"
+              type="text"
               name="resetCode"
               value={Formik.values.resetCode}
               onChange={Formik.handleChange}
