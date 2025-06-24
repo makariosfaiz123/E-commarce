@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
 
 export default function ForgotPass() {
-  const [isLoading, setisLoading] = useState(false);
+ 
   let navigate = useNavigate();
 
   function handleForgotPass(valuas) {
@@ -99,7 +99,7 @@ export default function ForgotPass() {
 
           <div className="flex gap-4 items-center">
             <button type="submit" className="btn my-3">
-              Send Reset Code
+              Send Email
             </button>
           </div>
         </form>

@@ -1,5 +1,5 @@
 import React from 'react'
-import style from "./VerifyResetCode.module.css"
+import style from "./VerifyResetCode.module.css"  
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -17,10 +17,7 @@ export default function VerifyResetCode() {
 
   function handleVerifyCode(valuas) {
     axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`,
-        valuas
-      )
+      .post(`https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`,valuas)
       .then((res) => {
         console.log(res);
 

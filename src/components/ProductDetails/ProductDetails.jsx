@@ -104,12 +104,13 @@ export default function ProductDetails() {
           </button>
         </div>
       </div>
+      
       <div className="row">
         {relatedProducts.length > 0 ? (
           relatedProducts.map((product) => (
             <div key={product.id} className="w-full md:w-1/3 lg:w-1/4 xl:w-1/6">
               <div className="product rounded-lg hover:border-[#0aad0a] hover:border-2 p-3">
-                <Link
+                <Link 
                   to={`/productdetails/${product.id}/${product.category.name}`}
                 >
                   <img src={product.imageCover} className="w-full" alt="" />
