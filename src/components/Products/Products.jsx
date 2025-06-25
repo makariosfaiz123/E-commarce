@@ -5,120 +5,97 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { ListContext } from "../../Context/ListContext";
 
-
-
-
 const HeartIcon = ({ filled }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width="24" 
-    height="24" 
-    viewBox="0 0 24 24" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
     fill={filled ? "currentColor" : "none"}
     stroke="currentColor"
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 
-    3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    <path
+      d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 
+    3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+    />
   </svg>
 );
 
-
-
-
-
 export default function Products() {
   let { data, isError, error, isLoading } = useProducts();
-  let { addProductToCart,CountItems ,setCountItems } = useContext(CartContext);
+  let { addProductToCart, CountItems, setCountItems } = useContext(CartContext);
   let { addProductToList } = useContext(ListContext);
 
-const [favorites, setFavorites] = useState({});
+  const [favorites, setFavorites] = useState({});
 
   const toggleFavorite = (productId) => {
-    setFavorites(prev => ({
+    setFavorites((prev) => ({
       ...prev,
-      [productId]: !prev[productId]
+      [productId]: !prev[productId],
     }));
   };
 
-
-if (isError) {
+  if (isError) {
     return <h3>{error}</h3>;
   }
   if (isLoading) {
     return <div className="spinner"></div>;
   }
 
+  async function AddToCart(id) {
+    let response = await addProductToCart(id);
 
-async function AddToCart(id) {
-  let response = await addProductToCart(id);
+    if (response.data.status == "success") {
+      setCountItems(CountItems + 1);
 
-  if (response.data.status == "success") {
-    setCountItems(CountItems +1)
-
-    toast.success("It has been successfully added. 🛺",{
-      
-      position: 'top-right',
-      style: {
-        background:'#4fa74f',
-        padding: '16px',
-        color:'white'
-      },
-      
-    });
-  } else {
-    toast.error(response.data.message,{
-      
-      position: 'top-right',
-      style: {
-        background:'#4fa74f',
-        padding: '16px',
-        color:'white'
-      },
-      
-    });
+      toast.success("It has been successfully added. 🛺", {
+        position: "top-right",
+        style: {
+          background: "#4fa74f",
+          padding: "16px",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(response.data.message, {
+        position: "top-right",
+        style: {
+          background: "#4fa74f",
+          padding: "16px",
+          color: "white",
+        },
+      });
+    }
   }
-}
 
-
-async function AddToList(id) {
-  let response = await addProductToList(id);
+  async function AddToList(id) {
+    let response = await addProductToList(id);
     console.log(response);
-    
-  if (response.data.status == "success") {
 
-    toast.success("Product added successfully to your wishlist",{
-      
-      position: 'top-right',
-      style: {
-        background:'#4fa74f',
-        padding: '16px',
-        color:'white'
-      },
-      icon:"💚"
-      
-    });
-  } else {
-    toast.error(response.data.message,{
-      
-      position: 'top-right',
-      style: {
-        background:'#4fa74f',
-        padding: '16px',
-        color:'white'
-      },
-      
-    });
+    if (response.data.status == "success") {
+      toast.success("Product added successfully to your wishlist", {
+        position: "top-right",
+        style: {
+          background: "#4fa74f",
+          padding: "16px",
+          color: "white",
+        },
+        icon: "💚",
+      });
+    } else {
+      toast.error(response.data.message, {
+        position: "top-right",
+        style: {
+          background: "#4fa74f",
+          padding: "16px",
+          color: "white",
+        },
+      });
+    }
   }
-}
-
-
-
-
-
-
 
   return (
     <>
@@ -126,7 +103,7 @@ async function AddToList(id) {
         {data?.data?.data.map((product) => (
           <div key={product.id} className="w-full md:w-1/3 lg:w-1/4 xl:w-1/6">
             <div className="product relative  hover:border-[#0aad0a] hover:border-2 rounded-lg p-3">
-              <Link 
+              <Link
                 to={`/productdetails/${product.id}/${product.category.name}`}
               >
                 <img src={product.imageCover} className="w-full" alt="" />
@@ -145,20 +122,25 @@ async function AddToList(id) {
                 </div>
               </Link>
               <div>
-                              <button onClick={() => AddToCart(product.id)} className="btn">Add To Cart</button>
-                             
-                          <button
-              onClick={() =>{ toggleFavorite(product.id);
-                AddToList(product.id);
-              }}
-              className="  absolute top-4 right-4  bg-white
+                <button onClick={() => AddToCart(product.id)} className="btn">
+                  Add To Cart
+                </button>
+
+                <button
+                  onClick={() => {
+                    toggleFavorite(product.id);
+                    AddToList(product.id);
+                  }}
+                  className="  absolute top-4 right-4  bg-white
                rounded-full p-2 shadow hover:scale-110 transition-transform"
-            >
-              <HeartIcon 
-                filled={favorites[product.id]}
-                className={favorites[product.id] ? 'text-red-500' : 'text-gray-400'} 
-              />
-            </button>
+                >
+                  <HeartIcon
+                    filled={favorites[product.id]}
+                    className={
+                      favorites[product.id] ? "text-red-500" : "text-gray-400"
+                    }
+                  />
+                </button>
               </div>
             </div>
           </div>

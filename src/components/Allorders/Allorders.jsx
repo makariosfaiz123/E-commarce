@@ -4,30 +4,25 @@ import axios from 'axios'
 export default function Allorders() {
 const [Orders, setOrders] = useState(null)
 
-function getAllOrders(){
-  axios.get(`https://ecommerce.routemisr.com/api/v1/orders/`)
-  .then((res)=>{
-    setOrders(res.data.data[0])
+function getAllOrders() {
+  axios.get(`https://ecommerce.routemisr.com/api/v1/orders/`, {
+    headers: {
+      token: localStorage.getItem("userToken") // ✅ تعديل: إضافة التوكن في الهيدر لتشغيل AllOrders من Vercel
+    }
+  })
+  .then((res) => {
+    setOrders(res.data.data[0]);
     console.log(res.data.data);
     console.log(res.data.data[0]);
-    console.log();
-    
-    
   })
-  .catch((err)=>err)
+  .catch((err) => console.log(err)); // ✅ ملاحظة: كنت عامل catch بـ (err) => err بس، فعدلتها تطبع الخطأ فعليًا
 }
+
 
 
 useEffect(()=>{
   getAllOrders()
 },[])
-
-
-
-
-
-
-
 
 
 
