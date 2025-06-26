@@ -1,41 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import style from "./Allorders.module.css"
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import style from "./Allorders.module.css";
+import axios from "axios";
 export default function Allorders() {
-const [Orders, setOrders] = useState(null)
+  const [Orders, setOrders] = useState(null);
 
-function getAllOrders() {
-  axios.get(`https://ecommerce.routemisr.com/api/v1/orders/`, {
-    headers: {
-      token: localStorage.getItem("userToken") // ✅ تعديل: إضافة التوكن في الهيدر لتشغيل AllOrders من Vercel
-    }
-  })
-  .then((res) => {
-    setOrders(res.data.data[0]);
-    console.log(res.data.data);
-    console.log(res.data.data[0]);
-  })
-  .catch((err) => console.log(err)); // ✅ ملاحظة: كنت عامل catch بـ (err) => err بس، فعدلتها تطبع الخطأ فعليًا
-}
-
-
-
-useEffect(()=>{
-  getAllOrders()
-},[])
-
-
+  function getAllOrders() {
+    axios
+      .get(`https://ecommerce.routemisr.com/api/v1/orders/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      })
+      .then((res) => {
+        setOrders(res.data.data[0]);
+        console.log(res.data.data);
+        console.log(res.data.data[0]);
+      })
+      .catch((err) =>
+        console.log("API Error:", err.response?.data || err.message)
+      );
+  }
+  useEffect(() => {
+    getAllOrders();
+  }, []);
 
   return (
     <>
       <div className=" bg-gray-100 py-20">
-      <h1 className="mb-10 text-center text-3xl font-bold">My Orders</h1>
-     
+        <h1 className="mb-10 text-center text-3xl font-bold">My Orders</h1>
+
         <div className="mx-auto  justify-center px-6 md:flex md:space-x-6 xl:px-0">
           <div className="rounded-lg md:w-2/3">
             {Orders?.cartItems.map((order) => (
               <div
-              key={order._id}
+                key={order._id}
                 className="justify-between mb-6 rounded-lg bg-white p-6
                      shadow-md sm:flex sm:justify-start"
               >
@@ -55,16 +53,16 @@ useEffect(()=>{
                   </div>
                   <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                     <div className="flex items-center border-gray-100">
-                      <h2 className="text-[#0aad0a] text-xl">count: {order.count}</h2>
+                      <h2 className="text-[#0aad0a] text-xl">
+                        count: {order.count}
+                      </h2>
                     </div>
-                    
                   </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        
       </div>
     </>
   );
