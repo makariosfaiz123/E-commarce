@@ -75,14 +75,14 @@ export default function ProductDetails() {
   return (
     <>
       <div className="row items-center">
-        <div className="w-1/4">
+        <div className="w-full md:w-1/3 lg:w-1/4">
           <Slider {...settings}>
             {product?.images.map((src) => (
               <img src={src} className="w-full" />
             ))}
           </Slider>
         </div>
-        <div className="w-3/4 p-8">
+        <div className="md:w-full lg:w-3/4 p-8">
           <h3 className="text-left pb-3 font-semibold capitalize text-2xl">
             {product?.title}
           </h3>
